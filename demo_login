@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio – Login</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ── CSS-Variablen ──────────────────────────────────────────────── */
+      :root {
+        --clr-bg:       #f5f3ef;
+        --clr-surface:  #ffffff;
+        --clr-accent:   #2d5be3;
+        --clr-accent-hover: #1e45c0;
+        --clr-text:     #1a1a1a;
+        --clr-muted:    #6b6b6b;
+        --clr-border:   #e0ddd8;
+        --clr-error:    #c0392b;
+        --clr-error-bg: #fdf0ee;
+        --font-display: "DM Serif Display", serif;
+        --font-body:    "DM Sans", sans-serif;
+        --radius:       14px;
+        --shadow:       0 4px 24px rgba(0, 0, 0, 0.08);
+        --transition:   0.2s ease;
+      }
+
+      /* Dark Mode */
+      body.dark {
+        --clr-bg:       #1a1a1a;
+        --clr-surface:  #242424;
+        --clr-text:     #f0ede8;
+        --clr-muted:    #999;
+        --clr-border:   #333;
+        --clr-error-bg: #2d1a18;
+        --shadow:       0 4px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      /* ── Reset & Basis ──────────────────────────────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family:      var(--font-body);
+        background-color: var(--clr-bg);
+        color:            var(--clr-text);
+        min-height:       100vh;
+        display:          flex;
+        flex-direction:   column;
+        transition:       background-color 0.3s ease, color 0.3s ease;
+      }
+
+      /* ── Header ─────────────────────────────────────────────────────── */
+      header {
+        background:    var(--clr-surface);
+        border-bottom: 1px solid var(--clr-border);
+        transition:    background-color 0.3s ease;
+      }
+
+      nav {
+        max-width:       1100px;
+        margin:          0 auto;
+        padding:         0 2rem;
+        height:          60px;
+        display:         flex;
+        align-items:     center;
+        justify-content: space-between;
+      }
+
+      .nav-logo {
+        font-family: var(--font-display);
+        font-size:   1.2rem;
+        color:       var(--clr-accent);
+        text-decoration: none;
+      }
+
+      /* Dark-Mode-Button */
+      .btn-darkmode {
+        font-size:     1rem;
+        background:    none;
+        border:        1px solid var(--clr-border);
+        color:         var(--clr-muted);
+        padding:       0.3rem 0.6rem;
+        border-radius: 6px;
+        cursor:        pointer;
+        transition:    all var(--transition);
+      }
+
+      .btn-darkmode:hover { border-color: var(--clr-accent); color: var(--clr-accent); }
+
+      /* ── Hauptbereich: zentrierte Login-Karte ────────────────────────── */
+      main {
+        flex:            1;
+        display:         flex;
+        align-items:     center;
+        justify-content: center;
+        padding:         2rem;
+      }
+
+      .login-wrapper {
+        width:      100%;
+        max-width:  420px;
+        /* Einblend-Animation */
+        animation:  fadeUp 0.5s ease both;
+      }
+
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0);    }
+      }
+
+      /* Willkommenstext oberhalb der Karte */
+      .login-intro {
+        text-align:    center;
+        margin-bottom: 2rem;
+      }
+
+      .login-intro h1 {
+        font-family:  var(--font-display);
+        font-size:    clamp(2rem, 5vw, 2.8rem);
+        line-height:  1.1;
+        margin-bottom: 0.5rem;
+      }
+
+      .login-intro p {
+        color:       var(--clr-muted);
+        font-size:   0.9rem;
+        font-weight: 300;
+      }
+
+      /* Login-Karte */
+      .login-card {
+        background:    var(--clr-surface);
+        border:        1px solid var(--clr-border);
+        border-radius: var(--radius);
+        padding:       2.5rem 2rem;
+        box-shadow:    var(--shadow);
+      }
+
+      /* Formular-Felder */
+      .form-group {
+        margin-bottom: 1.25rem;
+      }
+
+      .form-group label {
+        display:       block;
+        font-size:     0.8rem;
+        font-weight:   500;
+        color:         var(--clr-muted);
+        margin-bottom: 0.4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .form-group input {
+        width:         100%;
+        font-family:   var(--font-body);
+        font-size:     0.95rem;
+        color:         var(--clr-text);
+        background:    var(--clr-bg);
+        border:        1px solid var(--clr-border);
+        border-radius: 8px;
+        padding:       0.7rem 1rem;
+        outline:       none;
+        transition:    border-color var(--transition), box-shadow var(--transition);
+      }
+
+      .form-group input:focus {
+        border-color: var(--clr-accent);
+        box-shadow:   0 0 0 3px rgba(45, 91, 227, 0.12);
+      }
+
+      /* Fehler-Banner */
+      .error-msg {
+        display:       none;
+        background:    var(--clr-error-bg);
+        color:         var(--clr-error);
+        border:        1px solid rgba(192, 57, 43, 0.25);
+        border-radius: 8px;
+        padding:       0.7rem 1rem;
+        font-size:     0.85rem;
+        margin-bottom: 1.25rem;
+        /* Shake-Animation beim falschen Login */
+        animation:     none;
+      }
+
+      .error-msg.visible  { display: block; }
+      .error-msg.shake    { animation: shake 0.35s ease; }
+
+      @keyframes shake {
+        0%, 100% { transform: translateX(0);   }
+        20%      { transform: translateX(-6px); }
+        40%      { transform: translateX( 6px); }
+        60%      { transform: translateX(-4px); }
+        80%      { transform: translateX( 4px); }
+      }
+
+      /* Login-Button */
+      .btn-login {
+        width:         100%;
+        font-family:   var(--font-body);
+        font-size:     0.95rem;
+        font-weight:   500;
+        color:         #fff;
+        background:    var(--clr-accent);
+        border:        none;
+        border-radius: 8px;
+        padding:       0.8rem 1rem;
+        cursor:        pointer;
+        transition:    background var(--transition), transform var(--transition);
+        margin-top:    0.5rem;
+      }
+
+      .btn-login:hover  { background: var(--clr-accent-hover); }
+      .btn-login:active { transform: scale(0.98); }
+
+      /* Demo-Hinweis */
+      .demo-hint {
+        margin-top:  1.5rem;
+        font-size:   0.78rem;
+        color:       var(--clr-muted);
+        text-align:  center;
+        line-height: 1.6;
+        border-top:  1px solid var(--clr-border);
+        padding-top: 1.25rem;
+      }
+
+      .demo-hint strong { color: var(--clr-text); font-weight: 500; }
+
+      /* Demo-Nutzerpillen zum schnellen Einloggen */
+      .demo-pills {
+        display:         flex;
+        flex-wrap:       wrap;
+        gap:             0.4rem;
+        justify-content: center;
+        margin-top:      0.75rem;
+      }
+
+      .pill {
+        font-size:     0.78rem;
+        font-family:   var(--font-body);
+        background:    var(--clr-bg);
+        border:        1px solid var(--clr-border);
+        border-radius: 999px;
+        padding:       0.3rem 0.8rem;
+        cursor:        pointer;
+        color:         var(--clr-muted);
+        transition:    all var(--transition);
+      }
+
+      .pill:hover { border-color: var(--clr-accent); color: var(--clr-accent); }
+
+      /* ── Footer ─────────────────────────────────────────────────────── */
+      footer {
+        text-align: center;
+        padding:    1.25rem 2rem;
+        font-size:  0.78rem;
+        color:      var(--clr-muted);
+        border-top: 1px solid var(--clr-border);
+        background: var(--clr-surface);
+        transition: background-color 0.3s ease;
+      }
+
+      /* ── Responsivität ───────────────────────────────────────────────── */
+      @media (max-width: 480px) {
+        nav             { padding: 0 1rem; }
+        main            { padding: 1.5rem 1rem; align-items: flex-start; padding-top: 3rem; }
+        .login-card     { padding: 2rem 1.25rem; }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <header>
+      <nav>
+        <a href="index.html" class="nav-logo">Portfolio</a>
+        <button class="btn-darkmode" onclick="toggleDarkMode()" id="btn-dark" aria-label="Dark Mode umschalten">
+          🌙
+        </button>
+      </nav>
+    </header>
+
+    <!-- Login-Bereich -->
+    <main>
+      <div class="login-wrapper">
+
+        <!-- Überschrift -->
+        <div class="login-intro">
+          <h1>Willkommen</h1>
+          <p>Melde dich an, um dein Portfolio aufzurufen.</p>
+        </div>
+
+        <!-- Karte -->
+        <div class="login-card">
+
+          <!-- Fehler-Banner (standardmäßig versteckt) -->
+          <div class="error-msg" id="error-msg" role="alert">
+            ❌ Nutzername oder Passwort falsch. Bitte versuche es erneut.
+          </div>
+
+          <!-- Formular -->
+          <div class="form-group">
+            <label for="username">Nutzername</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="z. B. marian"
+              autocomplete="username"
+              autofocus
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Passwort</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+            />
+          </div>
+
+          <button class="btn-login" onclick="handleLogin()">Anmelden</button>
+
+          <!-- Demo-Hinweis -->
+          <div class="demo-hint">
+            <strong>Demo-Zugänge</strong> — Nutzername = Passwort<br />
+            Klicke auf einen Namen um ihn automatisch einzutragen:
+            <div class="demo-pills">
+              <button class="pill" onclick="fillDemo('marian')">marian</button>
+              <button class="pill" onclick="fillDemo('lenny')">lenny</button>
+              <button class="pill" onclick="fillDemo('jean')">jean</button>
+              <button class="pill" onclick="fillDemo('jakob')">jakob</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>Fortgeschrittene Informatik &middot; WDS25A &middot; 2. Semester</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      /* ── Dark Mode ──────────────────────────────────────────────────── */
+
+      // Beim Laden prüfen, ob Dark Mode bereits aktiv war
+      if (localStorage.getItem("darkMode") === "on") {
+        document.body.classList.add("dark");
+        document.getElementById("btn-dark").textContent = "☀️";
+      }
+
+      // Dark Mode ein- und ausschalten
+      function toggleDarkMode() {
+        const isDark = document.body.classList.toggle("dark");
+        const btn    = document.getElementById("btn-dark");
+        btn.textContent = isDark ? "☀️" : "🌙";
+        localStorage.setItem("darkMode", isDark ? "on" : "off");
+      }
+
+      /* ── Login-Logik ────────────────────────────────────────────────── */
+
+      /*
+       * Nutzerdaten: Nutzername -> { passwort, zielseite }
+       * In einer echten Anwendung würden Passwörter NIEMALS
+       * im Frontend gespeichert – dies dient nur Demo-Zwecken.
+       */
+      const NUTZER = {
+        marian: { passwort: "marian", seite: "marian.html" },
+        lenny:  { passwort: "lenny",  seite: "lenny.html"  },
+        jean:   { passwort: "jean",   seite: "jean.html"   },
+        jakob:  { passwort: "jakob",  seite: "jakob.html"  },
+      };
+
+      // Login verarbeiten
+      function handleLogin() {
+        const nameInput = document.getElementById("username");
+        const passInput = document.getElementById("password");
+        const errorMsg  = document.getElementById("error-msg");
+
+        const name     = nameInput.value.trim().toLowerCase();
+        const passwort = passInput.value;
+
+        const nutzer = NUTZER[name];
+
+        // Prüfen ob Nutzer existiert und Passwort stimmt
+        if (nutzer && passwort === nutzer.passwort) {
+          // Erfolgreicher Login: Nutzer in Session speichern & weiterleiten
+          sessionStorage.setItem("eingeloggterNutzer", name);
+          window.location.href = nutzer.seite;
+        } else {
+          // Fehler anzeigen und Fehlermeldung mit Shake-Animation versehen
+          passInput.value = "";
+          errorMsg.classList.add("visible");
+          // Shake-Animation neu starten: Klasse kurz entfernen, dann wieder hinzufügen
+          errorMsg.classList.remove("shake");
+          void errorMsg.offsetWidth; // Reflow erzwingen (Browser-Trick)
+          errorMsg.classList.add("shake");
+        }
+      }
+
+      // Demo-Pill: Nutzername UND Passwort automatisch eintragen
+      function fillDemo(name) {
+        document.getElementById("username").value = name;
+        document.getElementById("password").value = name;
+        // Fehlermeldung ausblenden wenn Demo-Nutzer gewählt
+        document.getElementById("error-msg").classList.remove("visible", "shake");
+        // Fokus auf den Login-Button setzen
+        document.querySelector(".btn-login").focus();
+      }
+
+      // Enter-Taste im Passwort-Feld löst Login aus
+      document.getElementById("password").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") handleLogin();
+      });
+
+      // Enter-Taste im Nutzername-Feld springt zum Passwort-Feld
+      document.getElementById("username").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") document.getElementById("password").focus();
+      });
+    </script>
+
+  </body>
+</html>
