@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marian – Portfolio</title>
+
+    <!-- Google Fonts: DM Serif Display für Überschriften, DM Sans für Text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ── CSS-Variablen (globales Design-System) ─────────────────────── */
+      :root {
+        --clr-bg:       #f5f3ef;
+        --clr-surface:  #ffffff;
+        --clr-accent:   #2d5be3;
+        --clr-accent2:  #e84545;
+        --clr-text:     #1a1a1a;
+        --clr-muted:    #6b6b6b;
+        --clr-border:   #e0ddd8;
+        --font-display: "DM Serif Display", serif;
+        --font-body:    "DM Sans", sans-serif;
+        --radius:       12px;
+        --shadow:       0 2px 12px rgba(0,0,0,0.07);
+        --transition:   0.2s ease;
+      }
+
+      /* ── Reset & Basis ──────────────────────────────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family:      var(--font-body);
+        background-color: var(--clr-bg);
+        color:            var(--clr-text);
+        line-height:      1.6;
+        min-height:       100vh;
+      }
+
+      /* ── Navigation ─────────────────────────────────────────────────── */
+      header {
+        background: var(--clr-surface);
+        border-bottom: 1px solid var(--clr-border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .nav-logo {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        color: var(--clr-accent);
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        list-style: none;
+      }
+
+      /* Interne Links zu den anderen Nutzerseiten */
+      .nav-links a {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--clr-muted);
+        text-decoration: none;
+        padding: 0.4rem 0.75rem;
+        border-radius: 6px;
+        transition: background var(--transition), color var(--transition);
+      }
+
+      .nav-links a:hover { background: var(--clr-bg); color: var(--clr-text); }
+
+      /* Aktive Seite hervorheben */
+      .nav-links a.active {
+        color: var(--clr-accent);
+        background: #eef1fc;
+        font-weight: 500;
+      }
+
+      /* Logout-Button */
+      .btn-logout {
+        font-size: 0.8rem;
+        font-family: var(--font-body);
+        color: var(--clr-muted);
+        background: none;
+        border: 1px solid var(--clr-border);
+        padding: 0.35rem 0.9rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all var(--transition);
+        margin-left: 0.5rem;
+      }
+
+      .btn-logout:hover {
+        border-color: var(--clr-accent2);
+        color: var(--clr-accent2);
+      }
+
+      /* ── Hero / Persönlicher Bereich ────────────────────────────────── */
+      .hero {
+        max-width: 1100px;
+        margin: 3rem auto 0;
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      /* Avatar-Kreis mit Initialen */
+      .avatar {
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--clr-accent);
+        color: #fff;
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        letter-spacing: 0.05em;
+      }
+
+      .hero-text h1 {
+        font-family: var(--font-display);
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        line-height: 1.15;
+        color: var(--clr-text);
+      }
+
+      .hero-text p {
+        margin-top: 0.5rem;
+        color: var(--clr-muted);
+        font-size: 0.95rem;
+        font-weight: 300;
+      }
+
+      /* Trennlinie nach dem Hero */
+      .divider {
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+      }
+
+      .divider hr {
+        border: none;
+        border-top: 1px solid var(--clr-border);
+      }
+
+      /* ── Haupt-Layout ───────────────────────────────────────────────── */
+      main {
+        max-width: 1100px;
+        margin: 0 auto 4rem;
+        padding: 0 2rem;
+        display: grid;
+        /* Zwei Spalten auf Desktop, eine auf Mobile (siehe @media unten) */
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      /* Abschnittsüberschriften */
+      .section-title {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        margin-bottom: 1.25rem;
+        color: var(--clr-text);
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      /* Kleiner farbiger Akzentpunkt vor Überschriften */
+      .section-title::before {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--clr-accent);
+        flex-shrink: 0;
+      }
+
+      /* ── Projektübersicht ───────────────────────────────────────────── */
+      section.projects { grid-column: 1; }
+
+      .project-card {
+        background: var(--clr-surface);
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius);
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: var(--shadow);
+        transition: transform var(--transition), box-shadow var(--transition);
+      }
+
+      .project-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      }
+
+      .project-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .project-card h3 {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .project-card p {
+        font-size: 0.85rem;
+        color: var(--clr-muted);
+        margin-bottom: 1rem;
+        font-weight: 300;
+      }
+
+      /* Status-Badges */
+      .badge {
+        font-size: 0.72rem;
+        font-weight: 500;
+        padding: 0.25rem 0.65rem;
+        border-radius: 999px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .badge--active   { background: #dff0d8; color: #2d6a2d; }
+      .badge--progress { background: #fff3cd; color: #7a5a00; }
+      .badge--done     { background: #e8eaf6; color: #3949ab; }
+
+      /* Fortschrittsbalken */
+      .progress-bar {
+        height: 4px;
+        background: var(--clr-border);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .progress-bar__fill {
+        height: 100%;
+        background: var(--clr-accent);
+        border-radius: 999px;
+        /* Breite wird direkt per style-Attribut gesetzt */
+        transition: width 0.6s ease;
+      }
+
+      /* ── Aufgaben-Dashboard ─────────────────────────────────────────── */
+      section.dashboard { grid-column: 2; }
+
+      /* Kanban-Spalten nebeneinander */
+      .kanban {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+
+      .kanban-col {
+        background: var(--clr-surface);
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius);
+        padding: 1rem;
+        min-height: 220px;
+        box-shadow: var(--shadow);
+      }
+
+      .kanban-col h4 {
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--clr-muted);
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--clr-border);
+      }
+
+      /* Einzelne Aufgaben-Karte */
+      .task-card {
+        background: var(--clr-bg);
+        border: 1px solid var(--clr-border);
+        border-radius: 8px;
+        padding: 0.65rem 0.75rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.82rem;
+        font-weight: 400;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background var(--transition), transform var(--transition);
+      }
+
+      .task-card:hover { background: #eef1fc; transform: scale(1.01); }
+
+      /* Pfeil-Button zum Weiterschieben der Aufgabe */
+      .task-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--clr-accent);
+        padding: 0;
+        flex-shrink: 0;
+        line-height: 1;
+        transition: transform var(--transition);
+      }
+
+      .task-btn:hover { transform: translateX(2px); }
+
+      /* Aufgabe in "Erledigt" bekommt einen Haken-Stil */
+      .kanban-col--done .task-card { opacity: 0.6; }
+      .kanban-col--done .task-btn  { display: none; }
+
+      /* ── Footer ─────────────────────────────────────────────────────── */
+      footer {
+        text-align: center;
+        padding: 1.5rem 2rem;
+        font-size: 0.8rem;
+        color: var(--clr-muted);
+        border-top: 1px solid var(--clr-border);
+        background: var(--clr-surface);
+      }
+
+      /* ── Responsives Design (Smartphone) ────────────────────────────── */
+      @media (max-width: 680px) {
+        nav { padding: 0 1rem; }
+
+        .nav-links { gap: 0; }
+        .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.8rem; }
+
+        .hero { padding: 0 1rem; }
+
+        main {
+          /* Auf Mobile: eine Spalte, Sektionen untereinander */
+          grid-template-columns: 1fr;
+          padding: 0 1rem;
+        }
+
+        section.projects,
+        section.dashboard { grid-column: 1; }
+
+        /* Kanban auf Mobile: Spalten untereinander statt nebeneinander */
+        .kanban { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- ── Navigation ─────────────────────────────────────────────────── -->
+    <header>
+      <nav>
+        <a href="index.html" class="nav-logo">Portfolio</a>
+
+        <ul class="nav-links">
+          <li><a href="marian.html" class="active">Marian</a></li>
+          <li><a href="lenny.html">Lenny</a></li>
+          <li><a href="jean.html">Jean</a></li>
+          <li><a href="jakob.html">Jakob</a></li>
+          <li>
+            <button class="btn-logout" onclick="window.location.href='index.html'">
+              Logout
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- ── Hero: Persönlicher Bereich ────────────────────────────────── -->
+    <section class="hero" aria-label="Persönliche Informationen">
+      <div class="avatar" aria-hidden="true">M</div>
+      <div class="hero-text">
+        <h1>Marian</h1>
+        <p>Dualer Student · Data Science &amp; KI · 2. Semester</p>
+      </div>
+    </section>
+
+    <div class="divider"><hr /></div>
+
+    <!-- ── Hauptinhalt ────────────────────────────────────────────────── -->
+    <main>
+
+      <!-- Projektübersicht -->
+      <section class="projects" aria-label="Projektübersicht">
+        <h2 class="section-title">Projekte</h2>
+
+        <!-- Projekt 1 -->
+        <article class="project-card">
+          <div class="project-card-header">
+            <h3>Web-Portfolio</h3>
+            <span class="badge badge--active">Aktiv</span>
+          </div>
+          <p>Aufbau einer responsiven Portfolio-Webseite mit HTML, CSS und JS.</p>
+          <div class="progress-bar">
+            <div class="progress-bar__fill" style="width: 65%"></div>
+          </div>
+        </article>
+
+        <!-- Projekt 2 -->
+        <article class="project-card">
+          <div class="project-card-header">
+            <h3>Datenbankmodell</h3>
+            <span class="badge badge--progress">In Arbeit</span>
+          </div>
+          <p>Konzeption und Umsetzung eines relationalen Datenbankschemas.</p>
+          <div class="progress-bar">
+            <div class="progress-bar__fill" style="width: 30%"></div>
+          </div>
+        </article>
+
+        <!-- Projekt 3 -->
+        <article class="project-card">
+          <div class="project-card-header">
+            <h3>Python-Analyse</h3>
+            <span class="badge badge--done">Abgeschlossen</span>
+          </div>
+          <p>Explorative Datenanalyse mit Pandas und Matplotlib.</p>
+          <div class="progress-bar">
+            <div class="progress-bar__fill" style="width: 100%"></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Aufgaben-Dashboard (Kanban) -->
+      <section class="dashboard" aria-label="Aufgaben-Dashboard">
+        <h2 class="section-title">Aufgaben</h2>
+
+        <div class="kanban" id="kanban">
+
+          <!-- Spalte: To-do -->
+          <div class="kanban-col" id="col-todo" aria-label="Offen">
+            <h4>Offen</h4>
+            <!-- Aufgaben werden hier per JS eingefügt -->
+          </div>
+
+          <!-- Spalte: In Arbeit -->
+          <div class="kanban-col" id="col-progress" aria-label="In Arbeit">
+            <h4>In Arbeit</h4>
+          </div>
+
+          <!-- Spalte: Erledigt -->
+          <div class="kanban-col kanban-col--done" id="col-done" aria-label="Erledigt">
+            <h4>Erledigt</h4>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ── Footer ─────────────────────────────────────────────────────── -->
+    <footer>
+      <p>Marian · WDS25A · Fortgeschrittene Informatik · 2. Semester</p>
+    </footer>
+
+    <!-- ── JavaScript: Kanban-Logik ──────────────────────────────────── -->
+    <script>
+      // Aufgaben-Daten: jede Aufgabe hat einen Text und eine Start-Spalte
+      const tasks = [
+        { text: "Responsivität testen",   col: "todo"     },
+        { text: "W3C Validator prüfen",   col: "todo"     },
+        { text: "Footer gestalten",       col: "todo"     },
+        { text: "Kanban-Logik schreiben", col: "progress" },
+        { text: "CSS-Variablen anlegen",  col: "done"     },
+        { text: "HTML-Grundgerüst",       col: "done"     },
+      ];
+
+      // Reihenfolge der Spalten — bestimmt wohin der Pfeil-Button schiebt
+      const colOrder = ["todo", "progress", "done"];
+
+      // Für jede Aufgabe eine Karte bauen und in die richtige Spalte hängen
+      tasks.forEach((task) => {
+        const col = document.getElementById("col-" + task.col);
+        col.appendChild(buildCard(task.text, task.col));
+      });
+
+      /**
+       * Baut eine einzelne Aufgaben-Karte als DOM-Element.
+       * @param {string} text  - Aufgabenbeschreibung
+       * @param {string} colId - aktuelle Spalten-ID (ohne "col-"-Präfix)
+       * @returns {HTMLElement}
+       */
+      function buildCard(text, colId) {
+        const card = document.createElement("div");
+        card.classList.add("task-card");
+        card.setAttribute("role", "listitem");
+
+        const label = document.createElement("span");
+        label.textContent = text;
+
+        // Pfeil-Button: schiebt die Aufgabe eine Spalte weiter
+        const btn = document.createElement("button");
+        btn.classList.add("task-btn");
+        btn.textContent = "→";
+        btn.setAttribute("aria-label", "Aufgabe weiterschieben");
+        btn.addEventListener("click", () => moveTask(card, colId));
+
+        card.appendChild(label);
+        card.appendChild(btn);
+        return card;
+      }
+
+      /**
+       * Verschiebt eine Karte in die nächste Kanban-Spalte.
+       * @param {HTMLElement} card  - die Aufgaben-Karte
+       * @param {string}      colId - ID der aktuellen Spalte
+       */
+      function moveTask(card, colId) {
+        const currentIndex = colOrder.indexOf(colId);
+
+        // Letzte Spalte — nichts mehr zu tun
+        if (currentIndex === colOrder.length - 1) return;
+
+        const nextColId = colOrder[currentIndex + 1];
+        const nextCol   = document.getElementById("col-" + nextColId);
+
+        // Karte neu bauen mit aktualisierter Spalten-ID
+        const newCard = buildCard(card.querySelector("span").textContent, nextColId);
+        nextCol.appendChild(newCard);
+        card.remove();
+      }
+    </script>
+
+  </body>
+</html>
