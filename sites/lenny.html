@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lenny</title>
+  <link rel="stylesheet" href="../style/style.css">
+</head>
+<body onload="checkLogin(); renderTasks('lenny'); ensureEditModalExists()">
+
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="marian.html">Marian</a>
+    <a href="lenny.html">Lenny</a>
+    <a href="jakob.html">Jakob</a>
+    <a href="jean.html">Jean</a>
+    <button onclick="logout()">Logout</button>
+  </nav>
+
+  <main>
+    <h1>Lenny's Aufgaben</h1>
+
+    <div id="taskInputArea"></div>
+
+    <h2>Offene Aufgaben</h2>
+    <div id="openTasks"></div>
+
+    <h2>Erledigte Aufgaben</h2>
+    <div id="doneTasks"></div>
+  </main>
+
+  <script src="../script/main.js"></script>
+
+  <script>
+    if (canEdit("lenny")) {
+      document.getElementById("taskInputArea").innerHTML = `
+        <div class="card">
+          <input id="taskText" type="text" placeholder="Neue Aufgabe">
+
+          <label for="taskProgress">
+            Fortschritt: <span id="progressValue">0%</span>
+          </label>
+          <input
+            id="taskProgress"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            oninput="updateProgressValue()"
+          >
+
+          <button onclick="addTask('lenny')">Hinzufügen</button>
+        </div>
+      `;
+    }
+  </script>
+
+</body>
+</html>
