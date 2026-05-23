@@ -14,7 +14,7 @@
     <a href="lenny.html">Lenny</a>
     <a href="jakob.html">Jakob</a>
     <a href="jean.html">Jean</a>
-    <button onclick="logout()">Logout</button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
   </nav>
 
   <main>
@@ -37,19 +37,21 @@
         <div class="card">
           <input id="taskText" type="text" placeholder="Neue Aufgabe">
 
-          <label for="taskProgress">
-            Fortschritt: <span id="progressValue">0%</span>
-          </label>
-          <input
-            id="taskProgress"
-            type="range"
-            min="0"
-            max="100"
-            value="0"
-            oninput="updateProgressValue()"
-          >
+          <div class="add-task-flex-wrapper">
+            <label for="taskProgress">
+              Fortschritt: <span id="progressValue">0%</span>
+            </label>
+            <input
+              id="taskProgress"
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              oninput="updateProgressValue()"
+            >
 
-          <button onclick="addTask('marian')">Hinzufügen</button>
+            <button class="add-btn" onclick="addTask('marian')">Hinzufügen</button>
+          </div>
         </div>
       `;
     }

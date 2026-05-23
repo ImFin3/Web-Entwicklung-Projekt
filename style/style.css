@@ -25,8 +25,7 @@ main {
   background: white;
   padding: 20px;
   border-radius: 10px;
-  margin-bottom: 20px;
-  width: fit-content;
+  margin: 10px 0px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -51,15 +50,24 @@ input[type="range"] {
 button {
   padding: 10px 14px;
   cursor: pointer;
-  margin-right: 5px;
+  margin: 2px;
   border: none;
   border-radius: 6px;
   background: #1976d2;
   color: white;
+  transition: 0.25s ease;
 }
 
 button:hover {
   background: #1565c0;
+}
+
+.logout-btn {
+  margin-left: auto;
+}
+
+.add-btn {
+  margin-left: auto;
 }
 
 /* ---------------------------
@@ -69,11 +77,13 @@ nav {
   background: #333;
   color: white;
   padding: 10px;
+  display: flex;
+  align-items: center;
 }
 
 nav a {
   color: white;
-  margin-right: 10px;
+  margin: 5px;
   text-decoration: none;
 }
 
@@ -82,13 +92,104 @@ nav a:hover {
 }
 
 /* ---------------------------
+   DASHBOARD GRID + CARDS
+--------------------------- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 8px 0;
+}
+
+/* Mobile: 1 Spalte */
+@media (max-width: 700px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card als Link */
+.dash-card {
+  --hue: 0;     /* 0 = rot, 120 = grün (wird per JS gesetzt) */
+  --p: 0%;      /* Progress (wird per JS gesetzt) */
+
+  display: block;
+  padding: 18px 18px 16px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #1f1f1f;
+
+  /* Pastelliger Verlauf je nach Hue */
+  background: linear-gradient(
+    135deg,
+    hsl(var(--hue), 55%, 88%),
+    hsl(var(--hue), 55%, 78%)
+  );
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.dash-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+.dash-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.dash-top h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.dash-percent {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* kleine Progress-Bar */
+.dash-bar {
+  margin-top: 12px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  overflow: hidden;
+}
+
+.dash-bar-fill {
+  display: block;
+  height: 100%;
+  width: var(--p);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.dash-sub {
+  margin: 10px 0 0;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* ---------------------------
    TASKS
 --------------------------- */
+
+.add-task-flex-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .task {
   background: white;
   margin: 10px 0;
   padding: 10px;
   border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
@@ -97,7 +198,9 @@ h2 {
 
 #openTasks,
 #doneTasks {
-  margin: 10px 0;
+  background: #fffce0;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 #doneTasks {

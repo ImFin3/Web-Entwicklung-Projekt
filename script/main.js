@@ -241,7 +241,7 @@ function addTask(owner) {
   const progress = Number(progressInput.value);
 
   if (text === "") {
-    alert("Bitte gib eine Aufgabe ein.");
+    alert("Bitte benenne die Aufgabe.");
     return;
   }
 
@@ -364,4 +364,46 @@ function renderTasks(owner) {
 function editTask(owner, index) {
   if (!canEdit(owner)) return;   // Rechtecheck
   openEditModal(owner, index);   // Modal öffnen statt prompt
+}
+
+// ---------------------------
+// DASHBOARD: Durchschnitts-Fortschritt berechnen
+// ---------------------------
+function getAverageProgress(owner) {
+  const list = getTasks()[owner] || [];
+  if (list.length === 0) return 0;
+
+  const sum = list.reduce((acc, t) => acc + Number(t.progress || 0), 0);
+  return Math.round(sum / list.length);
+}
+
+// ---------------------------
+// DASHBOARD: Card UI setzen (Text, Bar, Pastell-Farbe)
+// ---------------------------
+function updateDashboardCard(cardId, owner) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+
+  const avg = getAverageProgress(owner);
+
+  const progressSpan = card.querySelector(".dash-progress");
+  const barFill = card.querySelector(".dash-bar-fill");
+
+  if (progressSpan) progressSpan.innerText = avg + "%";
+  if (barFill) card.style.setProperty("--p", avg + "%");
+
+  // Hue von 0 (rot) bis 120 (grün)
+  const hue = Math.round((avg / 100) * 120);
+  card.style.setProperty("--hue", String(hue));
+}
+
+// ---------------------------
+// DASHBOARD: Initialisierung
+// ---------------------------
+function initDashboard() {
+  // Nur auf Dashboard-Seite sinnvoll (Cards existieren nur dort)
+  updateDashboardCard("card-marian", "marian");
+  updateDashboardCard("card-lenny", "lenny");
+  updateDashboardCard("card-jakob", "jakob");
+  updateDashboardCard("card-jean", "jean");
 }

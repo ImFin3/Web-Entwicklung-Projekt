@@ -6,21 +6,58 @@
   <link rel="stylesheet" href="../style/style.css">
 </head>
 
-<body onload="checkLogin()">
+<body onload="checkLogin(); initDashboard()">
 
-<nav>
-  <a href="dashboard.html">Dashboard</a>
-  <a href="marian.html">Marian</a>
-  <a href="lenny.html">Lenny</a>
-  <a href="jakob.html">Jakob</a>
-  <a href="jean.html">Jean</a>
-  <button onclick="logout()">Logout</button>
-</nav>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="marian.html">Marian</a>
+    <a href="lenny.html">Lenny</a>
+    <a href="jakob.html">Jakob</a>
+    <a href="jean.html">Jean</a>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </nav>
 
-<h1>Dashboard</h1>
+  <main>
+    <h1>Dashboard</h1>
 
-<p>Wähle eine Seite aus.</p>
+    <div class="dashboard-grid">
+      <a id="card-marian" class="dash-card" href="marian.html">
+        <div class="dash-top">
+          <h2>Marian</h2>
+          <div class="dash-percent"><span class="dash-progress">0%</span></div>
+        </div>
+        <div class="dash-bar"><span class="dash-bar-fill"></span></div>
+        <p class="dash-sub">Ø Fortschritt aller Tasks</p>
+      </a>
 
-<script src="../script/main.js"></script>
+      <a id="card-lenny" class="dash-card" href="lenny.html">
+        <div class="dash-top">
+          <h2>Lenny</h2>
+          <div class="dash-percent"><span class="dash-progress">0%</span></div>
+        </div>
+        <div class="dash-bar"><span class="dash-bar-fill"></span></div>
+        <p class="dash-sub">Ø Fortschritt aller Tasks</p>
+      </a>
+
+      <a id="card-jakob" class="dash-card" href="jakob.html">
+        <div class="dash-top">
+          <h2>Jakob</h2>
+          <div class="dash-percent"><span class="dash-progress">0%</span></div>
+        </div>
+        <div class="dash-bar"><span class="dash-bar-fill"></span></div>
+        <p class="dash-sub">Ø Fortschritt aller Tasks</p>
+      </a>
+
+      <a id="card-jean" class="dash-card" href="jean.html">
+        <div class="dash-top">
+          <h2>Jean</h2>
+          <div class="dash-percent"><span class="dash-progress">0%</span></div>
+        </div>
+        <div class="dash-bar"><span class="dash-bar-fill"></span></div>
+        <p class="dash-sub">Ø Fortschritt aller Tasks</p>
+      </a>
+    </div>
+  </main>
+
+  <script src="../script/main.js"></script>
 </body>
-</html>
