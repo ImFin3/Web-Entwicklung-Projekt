@@ -63,11 +63,15 @@ button:hover {
 }
 
 .logout-btn {
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .add-btn {
   margin-left: auto;
+}
+.dark-mode-btn {
+  margin-left: auto;
+  margin-right: 10px;
 }
 
 /* ---------------------------
@@ -265,4 +269,51 @@ h2 {
 --------------------------- */
 body.modal-open {
   overflow: hidden;
+}
+
+
+/* ---------------------------
+   DARK MODE
+--------------------------- */
+body.dark-mode {
+  background: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode .card,
+body.dark-mode .task,
+body.dark-mode .modal-card {
+  background: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode nav {
+  background: #000000;
+}
+
+body.dark-mode input[type="text"] {
+  background: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+body.dark-mode input[type="text"]::placeholder {
+  color: #aaaaaa;
+}
+
+body.dark-mode .dash-card {
+  color: #1f1f1f; 
+}
+
+body.dark-mode #openTasks {
+  background: #35331c;
+}
+
+body.dark-mode #doneTasks {
+  background: #1c351c;
+}
+
+body.dark-mode .modal-overlay {
+  background: rgba(0, 0, 0, 0.8);
 }

@@ -407,3 +407,20 @@ function initDashboard() {
   updateDashboardCard("card-jakob", "jakob");
   updateDashboardCard("card-jean", "jean");
 }
+
+// ---------------------------
+// DARK MODE
+// ---------------------------
+function initDarkMode() {
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark-mode");
+  }
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+}
+
+// Direkte Ausführung zur Vermeidung von FOUC (Flash of Unstyled Content)
+initDarkMode();
