@@ -1,6 +1,3 @@
-// ---------------------------
-// LOGIN DATEN
-// ---------------------------
 const users = {
   admin: "adminp",
   marian: "marianp",
@@ -9,9 +6,6 @@ const users = {
   jean: "jeanp"
 };
 
-// ---------------------------
-// LOGIN
-// ---------------------------
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
@@ -30,17 +24,11 @@ if (loginForm) {
   });
 }
 
-// ---------------------------
-// LOGOUT
-// ---------------------------
 function logout() {
   localStorage.removeItem("user");
   window.location.href = "../index.html";
 }
 
-// ---------------------------
-// LOGIN PRÜFEN
-// ---------------------------
 function checkLogin() {
   const user = localStorage.getItem("user");
   if (!user) {
@@ -48,9 +36,6 @@ function checkLogin() {
   }
 }
 
-// ---------------------------
-// TASKS LADEN / SPEICHERN
-// ---------------------------
 function getTasks() {
   return JSON.parse(localStorage.getItem("tasks")) || {};
 }
@@ -59,17 +44,11 @@ function saveTasks(data) {
   localStorage.setItem("tasks", JSON.stringify(data));
 }
 
-// ---------------------------
-// RECHTE PRÜFEN
-// ---------------------------
 function canEdit(owner) {
   const user = localStorage.getItem("user");
   return user === owner || user === "admin";
 }
 
-// ---------------------------
-// SLIDER TEXT AKTUALISIEREN
-// ---------------------------
 function updateProgressValue() {
   const slider = document.getElementById("taskProgress");
   const output = document.getElementById("progressValue");
@@ -80,9 +59,6 @@ function updateProgressValue() {
 }
 
 
-// ---------------------------
-// EDIT-MODAL: Progress-Anzeige aktualisieren
-// ---------------------------
 function updateEditProgressValue() {
   const slider = document.getElementById("editTaskProgress");
   const output = document.getElementById("editProgressValue");
@@ -92,9 +68,6 @@ function updateEditProgressValue() {
   }
 }
 
-// ---------------------------
-// EDIT-MODAL: einmalig ins DOM einfügen
-// ---------------------------
 function ensureEditModalExists() {
   if (document.getElementById("modalOverlay")) return;
 
@@ -130,29 +103,24 @@ function ensureEditModalExists() {
 
   document.body.appendChild(overlay);
 
-  // Slider live aktualisieren
   const editSlider = document.getElementById("editTaskProgress");
   if (editSlider) {
     editSlider.addEventListener("input", updateEditProgressValue);
   }
 
-  // Abbrechen-Button
   const cancelBtn = document.getElementById("editCancel");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", closeEditModal);
   }
 
-  // Klick auf grauen Hintergrund schließt (aber nicht Klick in die Card)
   overlay.addEventListener("click", (e) => {
     if (e.target === overlay) closeEditModal();
   });
 
-  // ESC schließt
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeEditModal();
   });
 
-  // Submit-Handler
   const form = document.getElementById("editForm");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -176,9 +144,6 @@ function ensureEditModalExists() {
     tasks[owner][index].text = text;
     tasks[owner][index].progress = progress;
 
-    // optional: wenn done true ist, willst du progress ggf. auf 100 lassen
-    // oder umgekehrt: wenn progress < 100, done auf false setzen
-    // -> aktuell lassen wir done unverändert.
 
     saveTasks(tasks);
     closeEditModal();
@@ -186,9 +151,6 @@ function ensureEditModalExists() {
   });
 }
 
-// ---------------------------
-// EDIT-MODAL öffnen/schließen
-// ---------------------------
 function openEditModal(owner, index) {
   ensureEditModalExists();
 
@@ -201,20 +163,16 @@ function openEditModal(owner, index) {
   const task = tasks[owner]?.[index];
   if (!task) return;
 
-  // Daten merken, damit submit weiß, was bearbeitet wird
   form.dataset.owner = owner;
   form.dataset.index = String(index);
 
-  // Werte vorbefüllen
   inputText.value = task.text;
   inputProgress.value = task.progress;
   updateEditProgressValue();
 
-  // anzeigen
   overlay.classList.remove("hidden");
   document.body.classList.add("modal-open");
 
-  // Fokus auf Textfeld
   inputText.focus();
   inputText.select();
 }
@@ -228,9 +186,6 @@ function closeEditModal() {
 }
 
 
-// ---------------------------
-// TASK HINZUFÜGEN
-// ---------------------------
 function addTask(owner) {
   if (!canEdit(owner)) return;
 
@@ -266,9 +221,6 @@ function addTask(owner) {
   renderTasks(owner);
 }
 
-// ---------------------------
-// TASK ALS FERTIG / OFFEN MARKIEREN
-// ---------------------------
 function toggleTask(owner, index) {
   if (!canEdit(owner)) return;
 
@@ -276,7 +228,6 @@ function toggleTask(owner, index) {
 
   tasks[owner][index].done = !tasks[owner][index].done;
 
-  // Wenn Aufgabe erledigt ist, setze Fortschritt auf 100%
   if (tasks[owner][index].done) {
     tasks[owner][index].progress = 100;
   }
@@ -285,9 +236,6 @@ function toggleTask(owner, index) {
   renderTasks(owner);
 }
 
-// ---------------------------
-// TASK LÖSCHEN
-// ---------------------------
 function deleteTask(owner, index) {
   if (!canEdit(owner)) return;
 
@@ -299,9 +247,6 @@ function deleteTask(owner, index) {
   renderTasks(owner);
 }
 
-// ---------------------------
-// TASKS ANZEIGEN
-// ---------------------------
 function renderTasks(owner) {
   const openContainer = document.getElementById("openTasks");
   const doneContainer = document.getElementById("doneTasks");
@@ -311,7 +256,7 @@ function renderTasks(owner) {
   openContainer.innerHTML = "";
   doneContainer.innerHTML = "";
 
-  const editable = canEdit(owner); // <- NEU: einmal berechnen
+  const editable = canEdit(owner);
 
   let tasks = getTasks()[owner] || [];
 
@@ -328,7 +273,6 @@ function renderTasks(owner) {
     const taskDiv = document.createElement("div");
     taskDiv.className = "task";
 
-    // Buttons nur wenn owner/admin:
     const actions = editable
       ? `
         <button onclick="toggleTask('${owner}', ${index})">
@@ -337,7 +281,7 @@ function renderTasks(owner) {
         <button onclick="editTask('${owner}', ${index})">Bearbeiten</button>
         <button onclick="deleteTask('${owner}', ${index})">Löschen</button>
       `
-      : ""; // <- Nicht-Besitzer: keine Aktionen
+      : "";
 
     taskDiv.innerHTML = `
       <p><strong>Aufgabe:</strong> ${task.text}</p>
@@ -358,17 +302,11 @@ function renderTasks(owner) {
   if (!hasDoneTasks) doneContainer.innerHTML = "<p>Keine erledigten Aufgaben.</p>";
 }
 
-// ---------------------------
-// TASK BEARBEITEN (öffnet Modal)
-// ---------------------------
 function editTask(owner, index) {
-  if (!canEdit(owner)) return;   // Rechtecheck
-  openEditModal(owner, index);   // Modal öffnen statt prompt
+  if (!canEdit(owner)) return;
+  openEditModal(owner, index);
 }
 
-// ---------------------------
-// DASHBOARD: Durchschnitts-Fortschritt berechnen
-// ---------------------------
 function getAverageProgress(owner) {
   const list = getTasks()[owner] || [];
   if (list.length === 0) return 0;
@@ -377,9 +315,6 @@ function getAverageProgress(owner) {
   return Math.round(sum / list.length);
 }
 
-// ---------------------------
-// DASHBOARD: Card UI setzen (Text, Bar, Pastell-Farbe)
-// ---------------------------
 function updateDashboardCard(cardId, owner) {
   const card = document.getElementById(cardId);
   if (!card) return;
@@ -392,25 +327,17 @@ function updateDashboardCard(cardId, owner) {
   if (progressSpan) progressSpan.innerText = avg + "%";
   if (barFill) card.style.setProperty("--p", avg + "%");
 
-  // Hue von 0 (rot) bis 120 (grün)
   const hue = Math.round((avg / 100) * 120);
   card.style.setProperty("--hue", String(hue));
 }
 
-// ---------------------------
-// DASHBOARD: Initialisierung
-// ---------------------------
 function initDashboard() {
-  // Nur auf Dashboard-Seite sinnvoll (Cards existieren nur dort)
   updateDashboardCard("card-marian", "marian");
   updateDashboardCard("card-lenny", "lenny");
   updateDashboardCard("card-jakob", "jakob");
   updateDashboardCard("card-jean", "jean");
 }
 
-// ---------------------------
-// DARK MODE
-// ---------------------------
 function initDarkMode() {
   if (localStorage.getItem("darkMode") === "true") {
     document.body.classList.add("dark-mode");
@@ -422,5 +349,4 @@ function toggleDarkMode() {
   localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
 }
 
-// Direkte Ausführung zur Vermeidung von FOUC (Flash of Unstyled Content)
 initDarkMode();

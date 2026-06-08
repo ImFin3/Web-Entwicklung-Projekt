@@ -1,6 +1,3 @@
-/* ---------------------------
-   GLOBAL
---------------------------- */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -11,9 +8,6 @@ main {
   padding: 20px;
 }
 
-/* ---------------------------
-   LAYOUT
---------------------------- */
 .center {
   display: flex;
   height: 100vh;
@@ -29,9 +23,6 @@ main {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* ---------------------------
-   INPUTS
---------------------------- */
 input[type="text"] {
   display: block;
   margin: 10px 0;
@@ -44,9 +35,6 @@ input[type="range"] {
   margin: 10px 0;
 }
 
-/* ---------------------------
-   BUTTONS
---------------------------- */
 button {
   padding: 10px 14px;
   cursor: pointer;
@@ -78,9 +66,6 @@ button:hover {
 }
 
 
-/* ---------------------------
-   NAVBAR
---------------------------- */
 nav {
   background: #333;
   color: white;
@@ -99,9 +84,6 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* ---------------------------
-   DASHBOARD GRID + CARDS
---------------------------- */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -109,17 +91,16 @@ nav a:hover {
   margin: 8px 0;
 }
 
-/* Mobile: 1 Spalte */
 @media (max-width: 700px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Card als Link */
+
 .dash-card {
-  --hue: 0;     /* 0 = rot, 120 = grün (wird per JS gesetzt) */
-  --p: 0%;      /* Progress (wird per JS gesetzt) */
+  --hue: 0;
+  --p: 0%;
 
   display: block;
   padding: 18px 18px 16px;
@@ -127,7 +108,6 @@ nav a:hover {
   text-decoration: none;
   color: #1f1f1f;
 
-  /* Pastelliger Verlauf je nach Hue */
   background: linear-gradient(
     135deg,
     hsl(var(--hue), 55%, 88%),
@@ -160,7 +140,6 @@ nav a:hover {
   font-size: 18px;
 }
 
-/* kleine Progress-Bar */
 .dash-bar {
   margin-top: 12px;
   height: 10px;
@@ -182,10 +161,6 @@ nav a:hover {
   font-size: 13px;
   opacity: 0.8;
 }
-
-/* ---------------------------
-   TASKS
---------------------------- */
 
 .add-task-flex-wrapper {
   display: flex;
@@ -217,9 +192,6 @@ h2 {
   border-radius: 8px;
 }
 
-/* ---------------------------
-   MODAL OVERLAY
---------------------------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -235,15 +207,11 @@ h2 {
   z-index: 1000;
 }
 
-/* sichtbar */
 .modal-overlay:not(.hidden) {
   opacity: 1;
   pointer-events: all;
 }
 
-/* ---------------------------
-   MODAL CARD ANIMATION
---------------------------- */
 .modal-card {
   width: min(420px, 92vw);
   transform: scale(0.95);
@@ -258,9 +226,6 @@ h2 {
   opacity: 1;
 }
 
-/* ---------------------------
-   MODAL ACTIONS
---------------------------- */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -268,17 +233,10 @@ h2 {
   margin-top: 12px;
 }
 
-/* ---------------------------
-   BODY LOCK (wenn Modal offen)
---------------------------- */
 body.modal-open {
   overflow: hidden;
 }
 
-
-/* ---------------------------
-   DARK MODE
---------------------------- */
 body.dark-mode {
   background: #121212;
   color: #e0e0e0;
